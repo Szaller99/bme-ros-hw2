@@ -24,20 +24,20 @@ class Palletizer : public MoveitPalletizing {
   public: 
   
   void Palletize(
-    const std::string & planning_pipeline = "ompl",    
-    const std::string & planner_id = "RRTConnectkConfigDefault")
+    const std::string & planning_pipeline = "pilz_industrial_motion_planner",    
+    const std::string & planner_id = "PTP")
   {
     for (int j = 0; j < 4; j++) {
       for (int i = 0; i < 4; i++) {
-        std::string object_name = "pallet_" + std::to_string(4 * j + i);
+        std::string object_name = "pallet_" + std::to_string(4 * j + i + 1);
         RCLCPP_INFO(LOGGER, "Going for object %s", object_name.c_str());
 
         // Go to pickup 
-        // TODO find pickup position
         Eigen::Isometry3d pickup_pose = Eigen::Isometry3d(
           Eigen::Translation3d(
-            0.3 + i * 0.1, j * 0.1 - 0.1,
-            0.35 - 0.1) *
+            0.5, 
+            0.0,
+            0.3+0.055) *
           Eigen::Quaterniond(0, 1, 0, 0));
 
         auto planned_trajectory =
@@ -49,13 +49,19 @@ class Palletizer : public MoveitPalletizing {
           RCLCPP_ERROR(LOGGER, "Planning failed");
         }
 
+        this->addBreakPoint();
         // Attach object
         AttachObject(object_name);
+
+        this->addBreakPoint();
 
         // Drop off to -0.3, 0.0, 0.35 pointing down
         // TODO Drop off poses calculation
         Eigen::Isometry3d dropoff_pose = Eigen::Isometry3d(
-          Eigen::Translation3d(-0.3, 0.0, 0.35) * Eigen::Quaterniond(0, 1, 0, 0));
+          Eigen::Translation3d(
+            -0.5  + 0.1 * i, 
+            -0.15 + 0.1 * j, 
+            0.35) * Eigen::Quaterniond(0, 1, 0, 0));
 
         auto drop_trajectory = planToPointUntilSuccess(
           dropoff_pose, planning_pipeline, planner_id);
@@ -68,7 +74,11 @@ class Palletizer : public MoveitPalletizing {
 
         // Detach
         DetachObject(object_name);
-        this->addPalletObject();
+
+        this->addBreakPoint();
+
+        this->addPalletObject(4 * j + i + 2);
+        this->addBreakPoint();
         }
       }
     }
@@ -93,33 +103,16 @@ int main(int argc, char * argv[])
   palletizing_node->initialize();
   palletizing_node->addBreakPoint();
 
-  // TODO check point?? 
-  auto starting_point = Eigen::Isometry3d(
-    Eigen::Translation3d(0.3, 0.0, 0.2) * Eigen::Quaterniond( 0.0, 0.0, 1.0, 0.0)
-  );
-
-  // moving to starting position
-  trajectory = palletizing_node->planToPoint(starting_point, "pilz_industrial_motion_planner", "PTP");
-
-  if (trajectory == nullptr) {
-    return 1;
-  }
-  palletizing_node->drawTrajectory(*trajectory);
-  palletizing_node->addBreakPoint();
-  palletizing_node->moveGroupInterface()->execute(*trajectory);
-  palletizing_node->addBreakPoint();
-
   // palletizing
 
 
   palletizing_node->moveGroupInterface()->setMaxVelocityScalingFactor(1.0);
   palletizing_node->moveGroupInterface()->setMaxAccelerationScalingFactor(1.0);
   // Add robot platform
-  palletizing_node->addRobotPlatform();
-  palletizing_node->addBreakPoint();
+  // palletizing_node->addRobotPlatform();
 
   // Add pallets
-  palletizing_node->addPalletObject();
+  palletizing_node->addPalletObject(1);
   palletizing_node->addBreakPoint();
 
   palletizing_node->Palletize();

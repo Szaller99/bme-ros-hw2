@@ -219,12 +219,11 @@ public:
     AddObject(collision_object);
   }
 
-  void addPalletObject()
+  void addPalletObject(int id)
   {
     moveit_msgs::msg::CollisionObject pallet_object;
     pallet_object.header.frame_id = move_group_interface_->getPlanningFrame();
-    this->pallet_id++;
-    pallet_object.id = "pallet_" + std::to_string(this->pallet_id);
+    pallet_object.id = "pallet_" + std::to_string(id);
     shape_msgs::msg::SolidPrimitive primitive;
     primitive.type = primitive.BOX;
     primitive.dimensions.resize(3);
@@ -235,9 +234,9 @@ public:
     // Define a pose for the box (specified relative to frame_id).
     geometry_msgs::msg::Pose stand_pose;
     stand_pose.orientation.w = 1.0;
-    stand_pose.position.x = 1.0;
+    stand_pose.position.x = 0.5;
     stand_pose.position.y = 0.0;
-    stand_pose.position.z = 0.0;
+    stand_pose.position.z = 0.3;
 
     pallet_object.primitives.push_back(primitive);
     pallet_object.primitive_poses.push_back(stand_pose);
@@ -274,7 +273,7 @@ public:
     attached_object.object.operation = attached_object.object.REMOVE;
 
     // Carry out the DETACH operation
-    RCLCPP_INFO(LOGGER, "Detaching the object from the hand");
+    RCLCPP_INFO(LOGGER, "Detaching the object %s from the hand", object_id.c_str());
     planning_scene.robot_state.attached_collision_objects.push_back(attached_object);
     planning_scene.robot_state.is_diff = true;
 
