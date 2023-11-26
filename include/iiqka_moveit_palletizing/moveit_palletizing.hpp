@@ -15,6 +15,8 @@
 #ifndef IIQKA_MOVEIT_PALLETIZING__MOVEIT_PALLETIZING_HPP_
 #define IIQKA_MOVEIT_PALLETIZING__MOVEIT_PALLETIZING_HPP_
 
+#endif
+
 #include <math.h>
 
 #include <memory>
@@ -221,8 +223,8 @@ public:
   {
     moveit_msgs::msg::CollisionObject pallet_object;
     pallet_object.header.frame_id = move_group_interface_->getPlanningFrame();
-    this.pallet_id++;
-    pallet_object.id = "pallet_" + std::to_string(this.pallet_id);
+    this->pallet_id++;
+    pallet_object.id = "pallet_" + std::to_string(this->pallet_id);
     shape_msgs::msg::SolidPrimitive primitive;
     primitive.type = primitive.BOX;
     primitive.dimensions.resize(3);

@@ -37,7 +37,7 @@ class Palletizer : public MoveitPalletizing {
         Eigen::Isometry3d pickup_pose = Eigen::Isometry3d(
           Eigen::Translation3d(
             0.3 + i * 0.1, j * 0.1 - 0.1,
-            0.35 - 0.1 * k) *
+            0.35 - 0.1) *
           Eigen::Quaterniond(0, 1, 0, 0));
 
         auto planned_trajectory =
@@ -68,12 +68,12 @@ class Palletizer : public MoveitPalletizing {
 
         // Detach
         DetachObject(object_name);
-        this.addPalletObject()
+        this->addPalletObject();
         }
       }
     }
 
-}
+};
 
 int main(int argc, char * argv[])
 {
@@ -82,7 +82,7 @@ int main(int argc, char * argv[])
   // Setup
   // Initialize ROS and create the Node
   rclcpp::init(argc, argv);
-  auto const palletizing_node = std::make_shared<Moveitpalletizing>();
+  auto const palletizing_node = std::make_shared<Palletizer>();
   rclcpp::executors::SingleThreadedExecutor executor;
   executor.add_node(palletizing_node);
   std::thread(
