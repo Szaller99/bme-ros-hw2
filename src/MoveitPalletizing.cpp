@@ -49,19 +49,19 @@ class Palletizer : public MoveitPalletizing {
           RCLCPP_ERROR(LOGGER, "Planning failed");
         }
 
-        this->addBreakPoint();
+        // this->addBreakPoint();
         // Attach object
         AttachObject(object_name);
 
-        this->addBreakPoint();
+        // this->addBreakPoint();
 
         // Drop off to -0.3, 0.0, 0.35 pointing down
         // TODO Drop off poses calculation
         Eigen::Isometry3d dropoff_pose = Eigen::Isometry3d(
           Eigen::Translation3d(
-            -0.5  + 0.1 * i, 
+            -0.7  + 0.1 * i, 
             -0.15 + 0.1 * j, 
-            0.35) * Eigen::Quaterniond(0, 1, 0, 0));
+            0.45) * Eigen::Quaterniond(0, 1, 0, 0));
 
         auto drop_trajectory = planToPointUntilSuccess(
           dropoff_pose, planning_pipeline, planner_id);
@@ -75,10 +75,10 @@ class Palletizer : public MoveitPalletizing {
         // Detach
         DetachObject(object_name);
 
-        this->addBreakPoint();
+        // this->addBreakPoint();
 
         this->addPalletObject(4 * j + i + 2);
-        this->addBreakPoint();
+        // this->addBreakPoint();
         }
       }
     }

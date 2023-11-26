@@ -277,8 +277,8 @@ public:
     planning_scene.robot_state.attached_collision_objects.push_back(attached_object);
     planning_scene.robot_state.is_diff = true;
 
-    // planning_scene.world.collision_objects.push_back(attached_object.object);
-    // planning_scene.is_diff = true;
+    planning_scene.world.collision_objects.push_back(attached_object.object);
+    planning_scene.is_diff = true;
     planning_scene_diff_publisher_->publish(planning_scene);
   }
 
