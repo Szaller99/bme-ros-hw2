@@ -6,5 +6,6 @@ sudo apt install -y libnanopb-dev libgrpc++-dev ros-humble-ros2-control ros-humb
 colcon build
 
 source install/setup.bash
-ros2 launch iiqka_moveit_welding moveit_welding_planning.launch.py
+
+ros2 launch iiqka_moveit_palletizing moveit_palletizing.launch.py
 
