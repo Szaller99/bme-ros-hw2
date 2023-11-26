@@ -22,7 +22,7 @@ find_package(kuka_driver_interfaces REQUIRED)
 
 include_directories(include)
 
-add_executable(iiqka_moveit_palletizing src/Moveitpalletizing.cpp)
+add_executable(iiqka_moveit_palletizing src/MoveitPalletizing.cpp)
 ament_target_dependencies(iiqka_moveit_palletizing
   moveit_ros_planning_interface
   rclcpp

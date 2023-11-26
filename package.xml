@@ -4,6 +4,7 @@
   <name>iiqka_moveit_palletizing</name>
   <version>0.0.0</version>
   <description>Palletizing with LBR iisy 11</description>
+  <maintainer email="szabolcs.szalay@kuka.com">Szabolcs Szalay</maintainer>
   <license>BSD</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>

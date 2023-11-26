@@ -18,10 +18,6 @@
 
 
 #include "iiqka_moveit_palletizing/moveit_palletizing.hpp"
-#include "iiqka_moveit_palletizing/Waypoints/Waypoints.hpp"
-#include "iiqka_moveit_palletizing/Waypoints/WaypointsBuilder.hpp"
-#include "iiqka_moveit_palletizing/Motion/LinearMotion.hpp"
-#include "iiqka_moveit_palletizing/Motion/SinusoidalMotion.hpp"
 
 class Palletizer : public MoveitPalletizing {
 
