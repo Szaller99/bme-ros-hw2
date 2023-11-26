@@ -59,8 +59,8 @@ class Palletizer : public MoveitPalletizing {
         // TODO Drop off poses calculation
         Eigen::Isometry3d dropoff_pose = Eigen::Isometry3d(
           Eigen::Translation3d(
-            -0.7  + 0.1 * i, 
-            -0.15 + 0.1 * j, 
+            -0.05  + 0.1 * i, 
+            -0.75 + 0.1 * j, 
             0.45) * Eigen::Quaterniond(0, 1, 0, 0));
 
         auto drop_trajectory = planToPointUntilSuccess(
@@ -75,7 +75,7 @@ class Palletizer : public MoveitPalletizing {
         // Detach
         DetachObject(object_name);
 
-        // this->addBreakPoint();
+        this->addBreakPoint();
 
         this->addPalletObject(4 * j + i + 2);
         // this->addBreakPoint();

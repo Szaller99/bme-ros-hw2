@@ -279,6 +279,7 @@ public:
 
     planning_scene.world.collision_objects.push_back(attached_object.object);
     planning_scene.is_diff = true;
+
     planning_scene_diff_publisher_->publish(planning_scene);
   }
 
